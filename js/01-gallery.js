@@ -31,18 +31,18 @@ function onGalleryItemClick(e) {
     return;
   }
 
-  const instance = createModal(e.target);
-  instance.show(() => document.addEventListener("keydown", onKeyboardCloseModal));
+  const html = `<img src=${e.target.dataset.source} alt=${e.target.alt}>`;
 
-  function onKeyboardCloseModal(e) {
+  const instance = basicLightbox.create(html, {
+    onShow: (instance) => document.addEventListener("keydown", onKeyboardCloseModal.bind(this, instance)),
+    onClose: () => document.removeEventListener("keydown", onKeyboardCloseModal),
+  });
+
+  instance.show();
+}
+
+function onKeyboardCloseModal(instance, e) {
   if (e.code === 'Escape') {
-    instance.close(() => document.removeEventListener("keydown", onKeyboardCloseModal));
-  };
-}
-}
-
-function createModal(image) {
-  return basicLightbox.create(`
-    <img src=${image.dataset.source} alt=${image.alt}>
-    `);
+    instance.close();
+  }
 }

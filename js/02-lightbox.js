@@ -11,6 +11,8 @@ galleryEl.insertAdjacentHTML('beforeend', galleryItemsMarkup);
 
 galleryEl.addEventListener('click', onGalleryItemClick)
 
+let lightbox =  new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250, captionPosition: 'bottom', });
+
 function createGalleryItemsMarkup(items) {
     return items.map(({ preview, original, description }) => {
         return `
@@ -30,5 +32,4 @@ function onGalleryItemClick(e) {
     if (e.target.nodeName !== "IMG") {
         return;
     }
-    new SimpleLightbox('.gallery a', { captions: true, captionsData: 'alt', captionDelay: 250 });
 }
