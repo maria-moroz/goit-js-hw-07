@@ -33,16 +33,18 @@ function onGalleryItemClick(e) {
 
   const html = `<img src=${e.target.dataset.source} alt=${e.target.alt}>`;
 
-  const instance = basicLightbox.create(html, {
-    onShow: (instance) => document.addEventListener("keydown", onKeyboardCloseModal.bind(this, instance)),
-    onClose: () => document.removeEventListener("keydown", onKeyboardCloseModal),
-  });
+  const options = {
+    onShow: () => { window.addEventListener('keydown', onKeyboardCloseModal); },
+    onClose: () => { window.removeEventListener('keydown', onKeyboardCloseModal); },
+  };
+
+  const instance = basicLightbox.create(html, options);
 
   instance.show();
-}
 
-function onKeyboardCloseModal(instance, e) {
-  if (e.code === 'Escape') {
-    instance.close();
+  function onKeyboardCloseModal(e) {
+    if (e.code === 'Escape') {
+      instance.close();
+    }
   }
 }
